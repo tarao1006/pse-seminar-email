@@ -70,3 +70,7 @@ with:
   pdf: distribution/seminar/20210101/report.pdf
   date: '20210101'
 ```
+
+## License
+
+[MIT License](LICENSE)
