@@ -1,0 +1,48 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - body: |
+              <p>
+                Dear all, <br><br>
+                Please find attached document to be used in seminar to be held on {date}. <br><br>
+                Thank you, <br>
+                {name}
+              <p>
+            subtype: html
+          - body: |
+              Dear all,
+
+              Please find attached document to be used in seminar to be held on {date}.
+
+              Thank you,
+              {name}
+            subtype: plain
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Send email
+        uses: ./
+        with:
+          ecs_id: ${{ secrets.ECS_ID }}
+          password: ${{ secrets.PASSWORD }}
+          to: ${{ secrets.TO }}
+          from: ${{ secrets.FROM }}
+          body: ${{ matrix.body }}
+          subtype: ${{ matrix.subtype }}
+          family_name: ${{ secrets.FAMILY_NAME }}
+          given_name: ${{ secrets.GIVEN_NAME }}
+          pdf: test.pdf
+          date: '20210101'

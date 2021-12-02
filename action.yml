@@ -1,0 +1,64 @@
+name: PSE send email
+description: Send an email with pdf file used in seminar
+author: tarao1006
+inputs:
+  smtp_host:
+    description: SMTP server host
+    required: true
+    default: smtp.office365.com
+  smtp_port:
+    description: SMTP server port
+    required: true
+    default: 587
+  ecs_id:
+    description: ECS ID
+    required: true
+  password:
+    description: Authenticate with this password to SMTP server
+    required: true
+  to:
+    description: Receiver mail address
+    required: true
+  from:
+    description: Sender mail address
+    required: true
+  subject:
+    description: Subject of email
+    required: true
+    default: Document for the seminar to be held on {date}
+  body:
+    description: Body of email
+    required: true
+    default: |
+      <p>
+        Dear all, <br><br>
+        Please find attached document to be used in seminar to be held on {date}. <br><br>
+        Thank you, <br>
+        {name}
+      <p>
+  subtype:
+    description: Subtype of MIME. html or plain
+    required: true
+    default: 'html'
+  date_format:
+    description: Format of date written in subject and body of email
+    required: true
+    default: '%b %d, %Y'
+  family_name:
+    description: Family name used as signature and as suffix of pdf file
+    required: true
+  given_name:
+    description: Given name used as signature
+    required: true
+  pdf:
+    description: File name of attached pdf file
+    required: true
+  date:
+    description: Date where the seminar will be held
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'mail'
+  color: 'gray-dark'
